@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mini_project_service:
+    container_name: mini_project_container
+    build:
+      context: .
+      args:
+        - NODE_ENV=local
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - "./:/workspace"
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - "//var/run/docker.sock://var/run/docker.sock"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+            # - GST_DEBUG_LEVEL=3
+    # restart: always
+    # command: ["deepstream_python_apps/apps/deepstream-demux-multi-in-multi-out/deepstream_demux_multi_in_multi_out.py","-i", "file:///opt/nvidia/deepstream/deepstream-5.1/workspace/1.mp4"]
+    command: ["jupyter", "notebook","--port","8888","--ip","0.0.0.0"]
+     # entrypoint: ["python3", "-u"]
